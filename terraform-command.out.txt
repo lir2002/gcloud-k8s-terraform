@@ -1,0 +1,482 @@
+Microsoft Windows [Version 10.0.19044.2486]
+
+Ethan_Li@EPCNSZXW0050 C:\Users\Ethan_Li
+$ d:
+
+Ethan_Li@EPCNSZXW0050 D:\
+$ cd dev
+
+Ethan_Li@EPCNSZXW0050 D:\dev
+$ git clone git clone https://github.com/hashicorp/learn-terraform-provision-gke-cluster gcloud-k8s-terraform
+fatal: Too many arguments.
+
+usage: git clone [<options>] [--] <repo> [<dir>]
+
+    -v, --verbose         be more verbose
+    -q, --quiet           be more quiet
+    --progress            force progress reporting
+    --reject-shallow      don't clone shallow repository
+    -n, --no-checkout     don't create a checkout
+    --bare                create a bare repository
+    --mirror              create a mirror repository (implies bare)
+    -l, --local           to clone from a local repository
+    --no-hardlinks        don't use local hardlinks, always copy
+    -s, --shared          setup as shared repository
+    --recurse-submodules[=<pathspec>]
+                          initialize submodules in the clone
+    --recursive ...       alias of --recurse-submodules
+    -j, --jobs <n>        number of submodules cloned in parallel
+    --template <template-directory>
+                          directory from which templates will be used
+    --reference <repo>    reference repository
+    --reference-if-able <repo>
+                          reference repository
+    --dissociate          use --reference only while cloning
+    -o, --origin <name>   use <name> instead of 'origin' to track upstream
+    -b, --branch <branch>
+                          checkout <branch> instead of the remote's HEAD
+    -u, --upload-pack <path>
+                          path to git-upload-pack on the remote
+    --depth <depth>       create a shallow clone of that depth
+    --shallow-since <time>
+                          create a shallow clone since a specific time
+    --shallow-exclude <revision>
+                          deepen history of shallow clone, excluding rev
+    --single-branch       clone only one branch, HEAD or --branch
+    --no-tags             don't clone any tags, and make later fetches not to follow them
+    --shallow-submodules  any cloned submodules will be shallow
+    --separate-git-dir <gitdir>
+                          separate git dir from working tree
+    -c, --config <key=value>
+                          set config inside the new repository
+    --server-option <server-specific>
+                          option to transmit
+    -4, --ipv4            use IPv4 addresses only
+    -6, --ipv6            use IPv6 addresses only
+    --filter <args>       object filtering
+    --remote-submodules   any cloned submodules will use their remote-tracking branch
+    --sparse              initialize sparse-checkout file to include only files at root
+
+
+Ethan_Li@EPCNSZXW0050 D:\dev
+$  git clone https://github.com/hashicorp/learn-terraform-provision-gke-cluster gcloud-k8s-terraform
+Cloning into 'gcloud-k8s-terraform'...
+remote: Enumerating objects: 100, done.
+remote: Counting objects: 100% (56/56), done.
+remote: Compressing objects: 100% (31/31), done.
+remote: Total 100 (delta 38), reused 28 (delta 25), pack-reused 44
+Receiving objects: 100% (100/100), 28.12 KiB | 411.00 KiB/s, done.
+Resolving deltas: 100% (49/49), done.
+
+Ethan_Li@EPCNSZXW0050 D:\dev
+$ cd gcloud-k8s-terraform
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/google from the dependency lock file
+- Installing hashicorp/google v4.27.0...
+- Installed hashicorp/google v4.27.0 (signed by HashiCorp)
+
+Terraform has made some changes to the provider dependency selections recorded
+in the .terraform.lock.hcl file. Review those changes and commit them to your
+version control system if they represent changes you intended to make.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform plan -out=PLAN.C.tfplan
+╷
+│ Error: Attempted to load application default credentials since neither `credentials` nor `access_token` was set in the provider block.  No credentials loaded. To use your gcloud credentials, run 'gcloud auth application-default login'.  Original error: google: could not find default credentials. See https://developers.google.com/accounts/docs/application-default-credentials for more information.
+│
+│   with provider["registry.terraform.io/hashicorp/google"],
+│   on vpc.tf line 9, in provider "google":
+│    9: provider "google" {
+│
+╵
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ gcloud auth application-default login
+Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fsqlservice.login+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Faccounts.reauth&state=8TR6kelxbvUYZIbcI3Tqk9NQYdXLEU&access_type=offline&code_challenge=-xKwKNaSfWyd1Df71OWBhFmV5sm837wZrHeuPLX1zrI&code_challenge_method=S256
+
+
+Credentials saved to file: [C:\Users\Ethan_Li\AppData\Roaming\gcloud\application_default_credentials.json]
+
+These credentials will be used by any library that requests Application Default Credentials (ADC).
+
+Quota project "valentine-night" was added to ADC which can be used by Google client libraries for billing and quota. Note that some services may still bill the project owning the resource.
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform plan -out=PLAN.C.tfplan
+╷
+│ Error: "name" ("Deadpool-subnet") doesn't match regexp "^(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?)$"
+│
+│   with google_compute_subnetwork.subnet,
+│   on vpc.tf line 22, in resource "google_compute_subnetwork" "subnet":
+│   22:   name          = "${var.project_id}-subnet"
+│
+╵
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform plan -out=PLAN.C.tfplan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_compute_network.vpc will be created
+  + resource "google_compute_network" "vpc" {
+      + auto_create_subnetworks         = false
+      + delete_default_routes_on_create = false
+      + gateway_ipv4                    = (known after apply)
+      + id                              = (known after apply)
+      + internal_ipv6_range             = (known after apply)
+      + mtu                             = (known after apply)
+      + name                            = "deadpool-vpc"
+      + project                         = (known after apply)
+      + routing_mode                    = (known after apply)
+      + self_link                       = (known after apply)
+    }
+
+  # google_compute_subnetwork.subnet will be created
+  + resource "google_compute_subnetwork" "subnet" {
+      + creation_timestamp         = (known after apply)
+      + external_ipv6_prefix       = (known after apply)
+      + fingerprint                = (known after apply)
+      + gateway_address            = (known after apply)
+      + id                         = (known after apply)
+      + ip_cidr_range              = "10.10.0.0/24"
+      + ipv6_cidr_range            = (known after apply)
+      + name                       = "deadpool-subnet"
+      + network                    = "deadpool-vpc"
+      + private_ipv6_google_access = (known after apply)
+      + project                    = (known after apply)
+      + purpose                    = (known after apply)
+      + region                     = "asia-south1"
+      + secondary_ip_range         = (known after apply)
+      + self_link                  = (known after apply)
+      + stack_type                 = (known after apply)
+    }
+
+  # google_container_cluster.primary will be created
+  + resource "google_container_cluster" "primary" {
+      + cluster_ipv4_cidr           = (known after apply)
+      + datapath_provider           = (known after apply)
+      + default_max_pods_per_node   = (known after apply)
+      + enable_binary_authorization = false
+      + enable_intranode_visibility = (known after apply)
+      + enable_kubernetes_alpha     = false
+      + enable_legacy_abac          = false
+      + enable_shielded_nodes       = true
+      + endpoint                    = (known after apply)
+      + id                          = (known after apply)
+      + initial_node_count          = 1
+      + label_fingerprint           = (known after apply)
+      + location                    = "asia-south1"
+      + logging_service             = (known after apply)
+      + master_version              = (known after apply)
+      + monitoring_service          = (known after apply)
+      + name                        = "deadpool-gke"
+      + network                     = "deadpool-vpc"
+      + networking_mode             = (known after apply)
+      + node_locations              = (known after apply)
+      + node_version                = (known after apply)
+      + operation                   = (known after apply)
+      + private_ipv6_google_access  = (known after apply)
+      + project                     = (known after apply)
+      + remove_default_node_pool    = true
+      + self_link                   = (known after apply)
+      + services_ipv4_cidr          = (known after apply)
+      + subnetwork                  = "deadpool-subnet"
+      + tpu_ipv4_cidr_block         = (known after apply)
+
+      + addons_config {
+          + cloudrun_config {
+              + disabled           = (known after apply)
+              + load_balancer_type = (known after apply)
+            }
+
+          + gcp_filestore_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + horizontal_pod_autoscaling {
+              + disabled = (known after apply)
+            }
+
+          + http_load_balancing {
+              + disabled = (known after apply)
+            }
+
+          + network_policy_config {
+              + disabled = (known after apply)
+            }
+        }
+
+      + authenticator_groups_config {
+          + security_group = (known after apply)
+        }
+
+      + cluster_autoscaling {
+          + enabled = (known after apply)
+
+          + auto_provisioning_defaults {
+              + image_type      = (known after apply)
+              + oauth_scopes    = (known after apply)
+              + service_account = (known after apply)
+            }
+
+          + resource_limits {
+              + maximum       = (known after apply)
+              + minimum       = (known after apply)
+              + resource_type = (known after apply)
+            }
+        }
+
+      + confidential_nodes {
+          + enabled = (known after apply)
+        }
+
+      + database_encryption {
+          + key_name = (known after apply)
+          + state    = (known after apply)
+        }
+
+      + default_snat_status {
+          + disabled = (known after apply)
+        }
+
+      + ip_allocation_policy {
+          + cluster_ipv4_cidr_block       = (known after apply)
+          + cluster_secondary_range_name  = (known after apply)
+          + services_ipv4_cidr_block      = (known after apply)
+          + services_secondary_range_name = (known after apply)
+        }
+
+      + logging_config {
+          + enable_components = (known after apply)
+        }
+
+      + master_auth {
+          + client_certificate     = (known after apply)
+          + client_key             = (sensitive value)
+          + cluster_ca_certificate = (known after apply)
+
+          + client_certificate_config {
+              + issue_client_certificate = (known after apply)
+            }
+        }
+
+      + monitoring_config {
+          + enable_components = (known after apply)
+        }
+
+      + node_config {
+          + boot_disk_kms_key = (known after apply)
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = (known after apply)
+          + local_ssd_count   = (known after apply)
+          + machine_type      = (known after apply)
+          + metadata          = (known after apply)
+          + min_cpu_platform  = (known after apply)
+          + node_group        = (known after apply)
+          + oauth_scopes      = (known after apply)
+          + preemptible       = (known after apply)
+          + service_account   = (known after apply)
+          + spot              = (known after apply)
+          + tags              = (known after apply)
+          + taint             = (known after apply)
+
+          + gcfs_config {
+              + enabled = (known after apply)
+            }
+
+          + gvnic {
+              + enabled = (known after apply)
+            }
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + node_pool {
+          + initial_node_count          = (known after apply)
+          + instance_group_urls         = (known after apply)
+          + managed_instance_group_urls = (known after apply)
+          + max_pods_per_node           = (known after apply)
+          + name                        = (known after apply)
+          + name_prefix                 = (known after apply)
+          + node_count                  = (known after apply)
+          + node_locations              = (known after apply)
+          + version                     = (known after apply)
+
+          + autoscaling {
+              + max_node_count = (known after apply)
+              + min_node_count = (known after apply)
+            }
+
+          + management {
+              + auto_repair  = (known after apply)
+              + auto_upgrade = (known after apply)
+            }
+
+          + node_config {
+              + boot_disk_kms_key = (known after apply)
+              + disk_size_gb      = (known after apply)
+              + disk_type         = (known after apply)
+              + guest_accelerator = (known after apply)
+              + image_type        = (known after apply)
+              + labels            = (known after apply)
+              + local_ssd_count   = (known after apply)
+              + machine_type      = (known after apply)
+              + metadata          = (known after apply)
+              + min_cpu_platform  = (known after apply)
+              + node_group        = (known after apply)
+              + oauth_scopes      = (known after apply)
+              + preemptible       = (known after apply)
+              + service_account   = (known after apply)
+              + spot              = (known after apply)
+              + tags              = (known after apply)
+              + taint             = (known after apply)
+
+              + gcfs_config {
+                  + enabled = (known after apply)
+                }
+
+              + gvnic {
+                  + enabled = (known after apply)
+                }
+
+              + shielded_instance_config {
+                  + enable_integrity_monitoring = (known after apply)
+                  + enable_secure_boot          = (known after apply)
+                }
+
+              + workload_metadata_config {
+                  + mode = (known after apply)
+                }
+            }
+
+          + upgrade_settings {
+              + max_surge       = (known after apply)
+              + max_unavailable = (known after apply)
+            }
+        }
+
+      + release_channel {
+          + channel = (known after apply)
+        }
+
+      + vertical_pod_autoscaling {
+          + enabled = (known after apply)
+        }
+
+      + workload_identity_config {
+          + workload_pool = (known after apply)
+        }
+    }
+
+  # google_container_node_pool.primary_nodes will be created
+  + resource "google_container_node_pool" "primary_nodes" {
+      + cluster                     = "deadpool-gke"
+      + id                          = (known after apply)
+      + initial_node_count          = (known after apply)
+      + instance_group_urls         = (known after apply)
+      + location                    = "asia-south1"
+      + managed_instance_group_urls = (known after apply)
+      + max_pods_per_node           = (known after apply)
+      + name                        = "deadpool-gke"
+      + name_prefix                 = (known after apply)
+      + node_count                  = 2
+      + node_locations              = (known after apply)
+      + operation                   = (known after apply)
+      + project                     = (known after apply)
+      + version                     = (known after apply)
+
+      + management {
+          + auto_repair  = (known after apply)
+          + auto_upgrade = (known after apply)
+        }
+
+      + node_config {
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = {
+              + "env" = "deadpool"
+            }
+          + local_ssd_count   = (known after apply)
+          + machine_type      = "n1-standard-1"
+          + metadata          = {
+              + "disable-legacy-endpoints" = "true"
+            }
+          + oauth_scopes      = [
+              + "https://www.googleapis.com/auth/logging.write",
+              + "https://www.googleapis.com/auth/monitoring",
+            ]
+          + preemptible       = false
+          + service_account   = (known after apply)
+          + spot              = false
+          + tags              = [
+              + "gke-node",
+              + "deadpool-gke",
+            ]
+          + taint             = (known after apply)
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + upgrade_settings {
+          + max_surge       = (known after apply)
+          + max_unavailable = (known after apply)
+        }
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + kubernetes_cluster_host = (known after apply)
+  + kubernetes_cluster_name = "deadpool-gke"
+  + project_id              = "deadpool"
+  + region                  = "asia-south1"
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: PLAN.C.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "PLAN.C.tfplan"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$
