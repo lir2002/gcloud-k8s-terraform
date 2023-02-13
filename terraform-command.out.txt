@@ -1101,3 +1101,209 @@ kubernetes_cluster_host = "34.93.54.93"
 kubernetes_cluster_name = "valentine-night-gke"
 project_id = "valentine-night"
 region = "asia-south1"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform plan -out=PLAN.Destroy.tfplan -destroy
+google_compute_network.vpc: Refreshing state... [id=projects/valentine-night/global/networks/valentine-night-vpc]
+google_compute_subnetwork.subnet: Refreshing state... [id=projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet]
+google_container_cluster.primary: Refreshing state... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke]
+google_container_node_pool.primary_nodes: Refreshing state... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke/nodePools/valentine-night-gke]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_compute_network.vpc will be destroyed
+  - resource "google_compute_network" "vpc" {
+      - auto_create_subnetworks         = false -> null
+      - delete_default_routes_on_create = false -> null
+      - enable_ula_internal_ipv6        = false -> null
+      - id                              = "projects/valentine-night/global/networks/valentine-night-vpc" -> null
+      - mtu                             = 0 -> null
+      - name                            = "valentine-night-vpc" -> null
+      - project                         = "valentine-night" -> null
+      - routing_mode                    = "REGIONAL" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/valentine-night/global/networks/valentine-night-vpc" -> null
+    }
+
+  # google_compute_subnetwork.subnet will be destroyed
+  - resource "google_compute_subnetwork" "subnet" {
+      - creation_timestamp         = "2023-02-13T01:29:02.734-08:00" -> null
+      - gateway_address            = "10.10.0.1" -> null
+      - id                         = "projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet" -> null
+      - ip_cidr_range              = "10.10.0.0/24" -> null
+      - name                       = "valentine-night-subnet" -> null
+      - network                    = "https://www.googleapis.com/compute/v1/projects/valentine-night/global/networks/valentine-night-vpc" -> null
+      - private_ip_google_access   = true -> null
+      - private_ipv6_google_access = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                    = "valentine-night" -> null
+      - purpose                    = "PRIVATE" -> null
+      - region                     = "asia-south1" -> null
+      - secondary_ip_range         = [] -> null
+      - self_link                  = "https://www.googleapis.com/compute/v1/projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet" -> null
+      - stack_type                 = "IPV4_ONLY" -> null
+    }
+
+  # google_container_cluster.primary will be destroyed
+  - resource "google_container_cluster" "primary" {
+      - cluster_ipv4_cidr           = "10.180.0.0/14" -> null
+      - enable_autopilot            = false -> null
+      - enable_binary_authorization = false -> null
+      - enable_intranode_visibility = false -> null
+      - enable_kubernetes_alpha     = false -> null
+      - enable_legacy_abac          = false -> null
+      - enable_shielded_nodes       = true -> null
+      - enable_tpu                  = false -> null
+      - endpoint                    = "34.93.54.93" -> null
+      - id                          = "projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke" -> null
+      - initial_node_count          = 1 -> null
+      - label_fingerprint           = "a9dc16a7" -> null
+      - location                    = "asia-south1" -> null
+      - logging_service             = "logging.googleapis.com/kubernetes" -> null
+      - master_version              = "1.24.8-gke.2000" -> null
+      - monitoring_service          = "monitoring.googleapis.com/kubernetes" -> null
+      - name                        = "valentine-night-gke" -> null
+      - network                     = "projects/valentine-night/global/networks/valentine-night-vpc" -> null
+      - networking_mode             = "ROUTES" -> null
+      - node_locations              = [
+          - "asia-south1-a",
+          - "asia-south1-b",
+          - "asia-south1-c",
+        ] -> null
+      - node_version                = "1.24.8-gke.2000" -> null
+      - project                     = "valentine-night" -> null
+      - remove_default_node_pool    = true -> null
+      - resource_labels             = {} -> null
+      - self_link                   = "https://container.googleapis.com/v1/projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke" -> null
+      - services_ipv4_cidr          = "10.183.240.0/20" -> null
+      - subnetwork                  = "projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet" -> null
+
+      - addons_config {
+
+          - network_policy_config {
+              - disabled = true -> null
+            }
+        }
+
+      - cluster_autoscaling {
+          - enabled = false -> null
+        }
+
+      - database_encryption {
+          - state = "DECRYPTED" -> null
+        }
+
+      - default_snat_status {
+          - disabled = false -> null
+        }
+
+      - logging_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+              - "WORKLOADS",
+            ] -> null
+        }
+
+      - master_auth {
+          - cluster_ca_certificate = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRQnR1dlRKU3d2NlM2bTRORnhHc2JhekFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlRMVpERXpNVGswTkMweFl6WTJMVFJpTnpNdFlUTmpNQzFpWW1VMVltUmtNMkkyWWpFdwpJQmNOTWpNd01qRXpNRGcwTXpFM1doZ1BNakExTXpBeU1EVXdPVFF6TVRkYU1DOHhMVEFyQmdOVkJBTVRKRFZrCk1UTXhPVFEwTFRGak5qWXROR0kzTXkxaE0yTXdMV0ppWlRWaVpHUXpZalppTVRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU41WEhicGFpbnY3TW9DeUk5emxxK0lqa2NsVGVkUGtya1FQc3JrbAo4Z2VnaU16TWtmRG8waTlrblUwNlhjZUFQd2tjU0ZSREVMKytiYjhKeHdpdk9oRU9CMG5rRFN5dHo1Y0lBRkZ5Cjc1N1ZERHcycGhjcHhMd1lkRFE0UUVMMWFPd2t2ekltTHFtejdXTmM3MmM2c3ZweU1Edmo5ejhTK0grbFJzSDYKaFFMMy9GZUtTN2FleFJKVmJmNFJRTmpTVWNkN1BBQnZzeVVNT2pRVURTUG4rODVNbkxCQjY0TTFHY3NiYzRaaApMOER4TmxmNjJmNDBEMXB4WHpQWHZjRTlhNk4rMkgyTzgyVTY2TGpOemMyZWpFTmVWRkZwVng3aEd4Z3M1NzNQCmNsTzIrdlRTaUtHMmllWklSR21Kd2xJeDRPcVF6b0htU1Uya0RsS1lpQVF0UG82RTVTUEErWDFIc20xQlZHL1gKWXBlaE9Kdk91ZVc3UjRlLzZ2dVpsU251OTk4Q3pHU0tzOEZZdmpqd0xDRXNPQkFsUHNyTnJKdVV3LzVvSWdwNwp3VVRDQlVBdk9LZkpraktMYXlzWjFxbmV4L2xJUmpDMnhkNXFxQjZZTEtRcG1BT3JtMDNxc2NoMFp6eWtZdTFWCjROYjhmYVY4WnBDbUJTTUk2YSt3bmRyVlZ3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVrUHp2cytOcWoyOEczTWtRdVZyWmtPQ3hZVG93RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFCWUVUV3h1c1I5cFJzQ2ZrZ0xiSWtmbzJzTXNjUDF4Wm1BNDhxcVpoZ2VqCnd3QTB3THl6ZmU5TitvS2RZcG1FSkh2cHpteFVIOThGQW5DVFdTdGlTMTlqVGhnRTd5YnNLRVhXOERkSzB5M00KaXVUejJJWDlBYlgzQlliWkplWVdyMFVtdFBBaFR6VFNIN1crakN6djJaaUN2YUNOa0pQcEdsMHJLVUU2MXlkawoxSFNUMDlJVFVzQ3RNN3RSUHJTcUhxaHl3OGpHZ1pKemIwRnErQWhwMUkxYnpESWdxd1hvVzBjMEh5dkZpbmh4CkovcWFQVk93OHZQd04zQ2tWYmUrRTlFUXZxeHdLTmFLL3pOSElXL0NwVjI2eC9sWkNtNUtjc0ViMjViVmkrZXAKSjltNkhUWEo0cmJtNTNaRkY4dUZWcDhTNkhyZnBxcEk0dzIrK1IzVkNCNVF1a01SOUFuaVJ2UUg4SEwvYlVBNwpnZWN0OFRsM1pIUTFkTWZyTDdkaWJ0Skx1YnJFSUVWRm5TaUZkRjF6OWR6eC9ROUJoRXJXNXJtckpWZ2xveThVCmNMVHZ2K1JYZ0xtMTUyZHU0WjJiZ3paL3JJRDUwb01xVFR1SU9TWWg5aG5tZGVGWEhDaE92ek9KdWhqMklzYUkKUnhBTXladjlPd0orelRSNCtXTExqdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K" -> null
+
+          - client_certificate_config {
+              - issue_client_certificate = false -> null
+            }
+        }
+
+      - monitoring_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+            ] -> null
+        }
+
+      - network_policy {
+          - enabled  = false -> null
+          - provider = "PROVIDER_UNSPECIFIED" -> null
+        }
+
+      - private_cluster_config {
+          - enable_private_endpoint = false -> null
+          - enable_private_nodes    = false -> null
+          - private_endpoint        = "10.10.0.2" -> null
+          - public_endpoint         = "34.93.54.93" -> null
+
+          - master_global_access_config {
+              - enabled = false -> null
+            }
+        }
+
+      - release_channel {
+          - channel = "REGULAR" -> null
+        }
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  - kubernetes_cluster_host = "34.93.54.93" -> null
+  - kubernetes_cluster_name = "valentine-night-gke" -> null
+  - project_id              = "valentine-night" -> null
+  - region                  = "asia-south1" -> null
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: PLAN.Destroy.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "PLAN.Destroy.tfplan"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform apply "PLAN.Destroy.tfplan"
+google_container_cluster.primary: Destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 1m50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 2m50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 3m50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 4m50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/valentine-night/locations/asia-south1/clusters/valentine-night-gke, 5m50s elapsed]
+google_container_cluster.primary: Destruction complete after 5m56s
+google_compute_subnetwork.subnet: Destroying... [id=projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet]
+google_compute_subnetwork.subnet: Still destroying... [id=projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet, 10s elapsed]
+google_compute_subnetwork.subnet: Still destroying... [id=projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet, 20s elapsed]
+google_compute_subnetwork.subnet: Destruction complete after 25s
+google_compute_network.vpc: Destroying... [id=projects/valentine-night/global/networks/valentine-night-vpc]
+google_compute_network.vpc: Still destroying... [id=projects/valentine-night/global/networks/valentine-night-vpc, 10s elapsed]
+google_compute_network.vpc: Still destroying... [id=projects/valentine-night/global/networks/valentine-night-vpc, 20s elapsed]
+google_compute_network.vpc: Destruction complete after 22s
+
+Apply complete! Resources: 0 added, 0 changed, 3 destroyed.
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$
