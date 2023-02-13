@@ -479,4 +479,98 @@ To perform exactly these actions, run the following command to apply:
     terraform apply "PLAN.C.tfplan"
 
 Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
-$
+$Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+ $  terraform apply "PLAN.C.tfplan"
+ google_compute_network.vpc: Creating...
+ ╷
+ │ Error: Error creating Network: googleapi: Error 403: Compute Engine API has not been used in project 466609933162 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=466609933162 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+ │ Details:
+ │ [
+ │   {
+ │     "@type": "type.googleapis.com/google.rpc.Help",
+ │     "links": [
+ │       {
+ │         "description": "Google developers console API activation",
+ │         "url": "https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=466609933162"
+ │       }
+ │     ]
+ │   },
+ │   {
+ │     "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+ │     "domain": "googleapis.com",
+ │     "metadatas": {
+ │       "consumer": "projects/466609933162",
+ │       "service": "compute.googleapis.com"
+ │     },
+ │     "reason": "SERVICE_DISABLED"
+ │   }
+ │ ]
+ │ , accessNotConfigured
+ │
+ │   with google_compute_network.vpc,
+ │   on vpc.tf line 15, in resource "google_compute_network" "vpc":
+ │   15: resource "google_compute_network" "vpc" {
+ │
+ ╵
+ Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+ $ terraform apply "PLAN.R.tfplan"
+ google_compute_network.vpc: Creating...
+ google_compute_network.vpc: Still creating... [10s elapsed]
+ google_compute_network.vpc: Creation complete after 12s [id=projects/valentine-night/global/networks/valentine-night-vpc]
+ google_compute_subnetwork.subnet: Creating...
+ google_compute_subnetwork.subnet: Still creating... [10s elapsed]
+ google_compute_subnetwork.subnet: Still creating... [20s elapsed]
+ google_compute_subnetwork.subnet: Creation complete after 29s [id=projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet]
+ google_container_cluster.primary: Creating...
+ ╷
+ │ Error: googleapi: Error 400: Failed precondition when calling the ServiceConsumerManager: tenantmanager::185014: Consumer 242643787068 should enable service:container.googleapis.com before generating a service account.
+ │ com.google.api.tenant.error.TenantManagerException: Consumer 242643787068 should enable service:container.googleapis.com before generating a service account., failedPrecondition
+ │
+ │   with google_container_cluster.primary,
+ │   on gke.tf line 17, in resource "google_container_cluster" "primary":
+ │   17: resource "google_container_cluster" "primary" {
+ │
+ ╵
+
+ Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+ $ terraform show
+ # google_compute_network.vpc:
+ resource "google_compute_network" "vpc" {
+     auto_create_subnetworks         = false
+     delete_default_routes_on_create = false
+     enable_ula_internal_ipv6        = false
+     id                              = "projects/valentine-night/global/networks/valentine-night-vpc"
+     mtu                             = 0
+     name                            = "valentine-night-vpc"
+     project                         = "valentine-night"
+     routing_mode                    = "REGIONAL"
+     self_link                       = "https://www.googleapis.com/compute/v1/projects/valentine-night/global/networks/valentine-night-vpc"
+ }
+
+ # google_compute_subnetwork.subnet:
+ resource "google_compute_subnetwork" "subnet" {
+     creation_timestamp         = "2023-02-13T01:29:02.734-08:00"
+     gateway_address            = "10.10.0.1"
+     id                         = "projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet"
+     ip_cidr_range              = "10.10.0.0/24"
+     name                       = "valentine-night-subnet"
+     network                    = "https://www.googleapis.com/compute/v1/projects/valentine-night/global/networks/valentine-night-vpc"
+     private_ip_google_access   = false
+     private_ipv6_google_access = "DISABLE_GOOGLE_ACCESS"
+     project                    = "valentine-night"
+     purpose                    = "PRIVATE"
+     region                     = "asia-south1"
+     secondary_ip_range         = []
+     self_link                  = "https://www.googleapis.com/compute/v1/projects/valentine-night/regions/asia-south1/subnetworks/valentine-night-subnet"
+     stack_type                 = "IPV4_ONLY"
+ }
+
+
+ Outputs:
+
+ kubernetes_cluster_name = "valentine-night-gke"
+ project_id = "valentine-night"
+ region = "asia-south1"
+
+ Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+ $
