@@ -1,2 +1,3 @@
-project_id = "valentine-night"
-region     = "asia-south1"
+project_id = "gks-nowhere"
+region     = "us-east1"
+zone       = "us-east1-c"
