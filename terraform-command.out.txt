@@ -1874,3 +1874,1464 @@ google_container_node_pool.primary_nodes: Creating...
 │   32: resource "google_container_node_pool" "primary_nodes" {
 │
 ╵
+EPAM+Ethan_Li@EPCNSZXW0050 MINGW64 /d/dev/gcloud-k8s-terraform (main)
+$ gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases.
+Fetching cluster endpoint and auth data.
+CRITICAL: ACTION REQUIRED: gke-gcloud-auth-plugin, which is needed for continued use of kubectl, was not found or is not executable. Install gke-gcloud-auth-plugin for use with kubectl by following https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+kubeconfig entry generated for gks-nowhere-gke.
+
+EPAM+Ethan_Li@EPCNSZXW0050 MINGW64 /d/dev/gcloud-k8s-terraform (main)
+$ terraform output -raw kubernetes_cluster_name
+gks-nowhere-gke
+EPAM+Ethan_Li@EPCNSZXW0050 MINGW64 /d/dev/gcloud-k8s-terraform (main)
+$ terraform output -raw region
+us-east1
+EPAM+Ethan_Li@EPCNSZXW0050 MINGW64 /d/dev/gcloud-k8s-terraform (main)
+$ date
+Fri Feb 17 10:53:48 CST 2023
+
+#  gcloud components install gke-gcloud-auth-plugin
+
+Restarting command:
+  $ gcloud components install gke-gcloud-auth-plugin
+
+  $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+  namespace/kubernetes-dashboard created
+  serviceaccount/kubernetes-dashboard created
+  service/kubernetes-dashboard created
+  secret/kubernetes-dashboard-certs created
+  secret/kubernetes-dashboard-csrf created
+  secret/kubernetes-dashboard-key-holder created
+  configmap/kubernetes-dashboard-settings created
+  role.rbac.authorization.k8s.io/kubernetes-dashboard created
+  clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+  rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+  clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+  Warning: spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+  deployment.apps/kubernetes-dashboard created
+  service/dashboard-metrics-scraper created
+  Warning: spec.template.metadata.annotations[seccomp.security.alpha.kubernetes.io/pod]: deprecated since v1.19, non-functional in v1.25+; use the "seccompProfile" field instead
+  deployment.apps/dashboard-metrics-scraper created
+
+$ kubectl proxy
+Starting to serve on 127.0.0.1:8001
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "no endpoints available for service \"kubernetes-dashboard\"",
+  "reason": "ServiceUnavailable",
+  "code": 503
+}
+
+$ terraform plan -out=PLAN.F.tfplan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_compute_network.vpc will be created
+  + resource "google_compute_network" "vpc" {
+      + auto_create_subnetworks         = false
+      + delete_default_routes_on_create = false
+      + gateway_ipv4                    = (known after apply)
+      + id                              = (known after apply)
+      + internal_ipv6_range             = (known after apply)
+      + mtu                             = (known after apply)
+      + name                            = "gks-nowhere-vpc"
+      + project                         = (known after apply)
+      + routing_mode                    = (known after apply)
+      + self_link                       = (known after apply)
+    }
+
+  # google_compute_subnetwork.subnet will be created
+  + resource "google_compute_subnetwork" "subnet" {
+      + creation_timestamp         = (known after apply)
+      + external_ipv6_prefix       = (known after apply)
+      + fingerprint                = (known after apply)
+      + gateway_address            = (known after apply)
+      + id                         = (known after apply)
+      + ip_cidr_range              = "10.10.0.0/24"
+      + ipv6_cidr_range            = (known after apply)
+      + name                       = "gks-nowhere-subnet"
+      + network                    = "gks-nowhere-vpc"
+      + private_ipv6_google_access = (known after apply)
+      + project                    = (known after apply)
+      + purpose                    = (known after apply)
+      + region                     = "us-east1"
+      + secondary_ip_range         = (known after apply)
+      + self_link                  = (known after apply)
+      + stack_type                 = (known after apply)
+    }
+
+  # google_container_cluster.primary will be created
+  + resource "google_container_cluster" "primary" {
+      + cluster_ipv4_cidr           = (known after apply)
+      + datapath_provider           = (known after apply)
+      + default_max_pods_per_node   = (known after apply)
+      + enable_binary_authorization = false
+      + enable_intranode_visibility = (known after apply)
+      + enable_kubernetes_alpha     = false
+      + enable_legacy_abac          = false
+      + enable_shielded_nodes       = true
+      + endpoint                    = (known after apply)
+      + id                          = (known after apply)
+      + initial_node_count          = 1
+      + label_fingerprint           = (known after apply)
+      + location                    = "us-east1"
+      + logging_service             = (known after apply)
+      + master_version              = (known after apply)
+      + monitoring_service          = (known after apply)
+      + name                        = "gks-nowhere-gke"
+      + network                     = "gks-nowhere-vpc"
+      + networking_mode             = (known after apply)
+      + node_locations              = (known after apply)
+      + node_version                = (known after apply)
+      + operation                   = (known after apply)
+      + private_ipv6_google_access  = (known after apply)
+      + project                     = (known after apply)
+      + remove_default_node_pool    = true
+      + self_link                   = (known after apply)
+      + services_ipv4_cidr          = (known after apply)
+      + subnetwork                  = "gks-nowhere-subnet"
+      + tpu_ipv4_cidr_block         = (known after apply)
+
+      + addons_config {
+          + cloudrun_config {
+              + disabled           = (known after apply)
+              + load_balancer_type = (known after apply)
+            }
+
+          + gcp_filestore_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + horizontal_pod_autoscaling {
+              + disabled = (known after apply)
+            }
+
+          + http_load_balancing {
+              + disabled = (known after apply)
+            }
+
+          + network_policy_config {
+              + disabled = (known after apply)
+            }
+        }
+
+      + authenticator_groups_config {
+          + security_group = (known after apply)
+        }
+
+      + cluster_autoscaling {
+          + enabled = (known after apply)
+
+          + auto_provisioning_defaults {
+              + image_type      = (known after apply)
+              + oauth_scopes    = (known after apply)
+              + service_account = (known after apply)
+            }
+
+          + resource_limits {
+              + maximum       = (known after apply)
+              + minimum       = (known after apply)
+              + resource_type = (known after apply)
+            }
+        }
+
+      + confidential_nodes {
+          + enabled = (known after apply)
+        }
+
+      + database_encryption {
+          + key_name = (known after apply)
+          + state    = (known after apply)
+        }
+
+      + default_snat_status {
+          + disabled = (known after apply)
+        }
+
+      + ip_allocation_policy {
+          + cluster_ipv4_cidr_block       = (known after apply)
+          + cluster_secondary_range_name  = (known after apply)
+          + services_ipv4_cidr_block      = (known after apply)
+          + services_secondary_range_name = (known after apply)
+        }
+
+      + logging_config {
+          + enable_components = (known after apply)
+        }
+
+      + master_auth {
+          + client_certificate     = (known after apply)
+          + client_key             = (sensitive value)
+          + cluster_ca_certificate = (known after apply)
+
+          + client_certificate_config {
+              + issue_client_certificate = (known after apply)
+            }
+        }
+
+      + monitoring_config {
+          + enable_components = (known after apply)
+        }
+
+      + node_config {
+          + boot_disk_kms_key = (known after apply)
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = (known after apply)
+          + local_ssd_count   = (known after apply)
+          + machine_type      = (known after apply)
+          + metadata          = (known after apply)
+          + min_cpu_platform  = (known after apply)
+          + node_group        = (known after apply)
+          + oauth_scopes      = (known after apply)
+          + preemptible       = (known after apply)
+          + service_account   = (known after apply)
+          + spot              = (known after apply)
+          + tags              = (known after apply)
+          + taint             = (known after apply)
+
+          + gcfs_config {
+              + enabled = (known after apply)
+            }
+
+          + gvnic {
+              + enabled = (known after apply)
+            }
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + node_pool {
+          + initial_node_count          = (known after apply)
+          + instance_group_urls         = (known after apply)
+          + managed_instance_group_urls = (known after apply)
+          + max_pods_per_node           = (known after apply)
+          + name                        = (known after apply)
+          + name_prefix                 = (known after apply)
+          + node_count                  = (known after apply)
+          + node_locations              = (known after apply)
+          + version                     = (known after apply)
+
+          + autoscaling {
+              + max_node_count = (known after apply)
+              + min_node_count = (known after apply)
+            }
+
+          + management {
+              + auto_repair  = (known after apply)
+              + auto_upgrade = (known after apply)
+            }
+
+          + node_config {
+              + boot_disk_kms_key = (known after apply)
+              + disk_size_gb      = (known after apply)
+              + disk_type         = (known after apply)
+              + guest_accelerator = (known after apply)
+              + image_type        = (known after apply)
+              + labels            = (known after apply)
+              + local_ssd_count   = (known after apply)
+              + machine_type      = (known after apply)
+              + metadata          = (known after apply)
+              + min_cpu_platform  = (known after apply)
+              + node_group        = (known after apply)
+              + oauth_scopes      = (known after apply)
+              + preemptible       = (known after apply)
+              + service_account   = (known after apply)
+              + spot              = (known after apply)
+              + tags              = (known after apply)
+              + taint             = (known after apply)
+
+              + gcfs_config {
+                  + enabled = (known after apply)
+                }
+
+              + gvnic {
+                  + enabled = (known after apply)
+                }
+
+              + shielded_instance_config {
+                  + enable_integrity_monitoring = (known after apply)
+                  + enable_secure_boot          = (known after apply)
+                }
+
+              + workload_metadata_config {
+                  + mode = (known after apply)
+                }
+            }
+
+          + upgrade_settings {
+              + max_surge       = (known after apply)
+              + max_unavailable = (known after apply)
+            }
+        }
+
+      + release_channel {
+          + channel = (known after apply)
+        }
+
+      + vertical_pod_autoscaling {
+          + enabled = (known after apply)
+        }
+
+      + workload_identity_config {
+          + workload_pool = (known after apply)
+        }
+    }
+
+  # google_container_node_pool.primary_nodes will be created
+  + resource "google_container_node_pool" "primary_nodes" {
+      + cluster                     = "gks-nowhere-gke"
+      + id                          = (known after apply)
+      + initial_node_count          = (known after apply)
+      + instance_group_urls         = (known after apply)
+      + location                    = "us-east1"
+      + managed_instance_group_urls = (known after apply)
+      + max_pods_per_node           = (known after apply)
+      + name                        = "gks-nowhere-gke"
+      + name_prefix                 = (known after apply)
+      + node_count                  = 1
+      + node_locations              = (known after apply)
+      + operation                   = (known after apply)
+      + project                     = (known after apply)
+      + version                     = (known after apply)
+
+      + management {
+          + auto_repair  = (known after apply)
+          + auto_upgrade = (known after apply)
+        }
+
+      + node_config {
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = {
+              + "env" = "gks-nowhere"
+            }
+          + local_ssd_count   = (known after apply)
+          + machine_type      = "e2-small"
+          + metadata          = {
+              + "disable-legacy-endpoints" = "true"
+            }
+          + oauth_scopes      = [
+              + "https://www.googleapis.com/auth/logging.write",
+              + "https://www.googleapis.com/auth/monitoring",
+            ]
+          + preemptible       = false
+          + service_account   = (known after apply)
+          + spot              = false
+          + tags              = [
+              + "gke-node",
+              + "gks-nowhere-gke",
+            ]
+          + taint             = (known after apply)
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + upgrade_settings {
+          + max_surge       = (known after apply)
+          + max_unavailable = (known after apply)
+        }
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + kubernetes_cluster_host = (known after apply)
+  + kubernetes_cluster_name = "gks-nowhere-gke"
+  + project_id              = "gks-nowhere"
+  + region                  = "us-east1"
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: PLAN.F.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "PLAN.F.tfplan"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform apply "PLAN.F.tfplan"
+google_compute_network.vpc: Creating...
+google_compute_network.vpc: Still creating... [10s elapsed]
+google_compute_network.vpc: Still creating... [20s elapsed]
+google_compute_network.vpc: Creation complete after 23s [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc]
+google_compute_subnetwork.subnet: Creating...
+google_compute_subnetwork.subnet: Still creating... [10s elapsed]
+google_compute_subnetwork.subnet: Creation complete after 14s [id=projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet]
+google_container_cluster.primary: Creating...
+google_container_cluster.primary: Still creating... [10s elapsed]
+google_container_cluster.primary: Still creating... [20s elapsed]
+google_container_cluster.primary: Still creating... [30s elapsed]
+google_container_cluster.primary: Still creating... [40s elapsed]
+google_container_cluster.primary: Still creating... [50s elapsed]
+google_container_cluster.primary: Still creating... [1m0s elapsed]
+google_container_cluster.primary: Still creating... [1m10s elapsed]
+google_container_cluster.primary: Still creating... [1m20s elapsed]
+google_container_cluster.primary: Still creating... [1m30s elapsed]
+google_container_cluster.primary: Still creating... [1m40s elapsed]
+google_container_cluster.primary: Still creating... [1m50s elapsed]
+google_container_cluster.primary: Still creating... [2m0s elapsed]
+google_container_cluster.primary: Still creating... [2m10s elapsed]
+google_container_cluster.primary: Still creating... [2m20s elapsed]
+google_container_cluster.primary: Still creating... [2m30s elapsed]
+google_container_cluster.primary: Still creating... [2m40s elapsed]
+google_container_cluster.primary: Still creating... [2m50s elapsed]
+google_container_cluster.primary: Still creating... [3m0s elapsed]
+google_container_cluster.primary: Still creating... [3m10s elapsed]
+google_container_cluster.primary: Still creating... [3m20s elapsed]
+google_container_cluster.primary: Still creating... [3m30s elapsed]
+google_container_cluster.primary: Still creating... [3m40s elapsed]
+google_container_cluster.primary: Still creating... [3m50s elapsed]
+google_container_cluster.primary: Still creating... [4m0s elapsed]
+google_container_cluster.primary: Still creating... [4m10s elapsed]
+google_container_cluster.primary: Still creating... [4m20s elapsed]
+google_container_cluster.primary: Still creating... [4m30s elapsed]
+google_container_cluster.primary: Creation complete after 4m32s [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke]
+google_container_node_pool.primary_nodes: Creating...
+google_container_node_pool.primary_nodes: Still creating... [10s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [20s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [30s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [40s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [50s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [1m0s elapsed]
+google_container_node_pool.primary_nodes: Creation complete after 1m8s [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke]
+
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+kubernetes_cluster_host = "34.74.150.249"
+kubernetes_cluster_name = "gks-nowhere-gke"
+project_id = "gks-nowhere"
+region = "us-east1"
+
+$ gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases.
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for gks-nowhere-gke.
+
+$ kubectl apply -f https://raw.githubusercontent.com/hashicorp/learn-terraform-provision-gke-cluster/main/kubernetes-dashboard-admin.rbac.yaml
+serviceaccount/admin-user created
+clusterrolebinding.rbac.authorization.k8s.io/admin-user created
+
+Ethan_Li@EPCNSZXW0050 C:\Users\Ethan_Li
+
+$ gcloud container clusters describe gks-nowhere-gke --region us-east1
+addonsConfig:
+  gcePersistentDiskCsiDriverConfig:
+    enabled: true
+  kubernetesDashboard:
+    disabled: true
+  networkPolicyConfig:
+    disabled: true
+autopilot: {}
+autoscaling:
+  autoscalingProfile: BALANCED
+binaryAuthorization: {}
+clusterIpv4Cidr: 10.220.0.0/14
+createTime: '2023-02-17T03:18:24+00:00'
+currentMasterVersion: 1.24.9-gke.2000
+currentNodeCount: 3
+currentNodeVersion: 1.24.9-gke.2000
+databaseEncryption:
+  state: DECRYPTED
+endpoint: 34.74.150.249
+etag: fc91fe5e-73b1-4934-b815-eab012a6299d
+id: 8c797a95450d4c2ba59254412db785ad8ba23731a379422c9ac776feb75a3307
+initialClusterVersion: 1.24.9-gke.2000
+initialNodeCount: 1
+instanceGroupUrls:
+- https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-5f220a3d-grp
+- https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-870ab46d-grp
+- https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-a957fb0b-grp
+ipAllocationPolicy:
+  stackType: IPV4
+  useRoutes: true
+labelFingerprint: a9dc16a7
+legacyAbac: {}
+location: us-east1
+locations:
+- us-east1-b
+- us-east1-d
+- us-east1-c
+loggingConfig:
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - WORKLOADS
+loggingService: logging.googleapis.com/kubernetes
+maintenancePolicy:
+  resourceVersion: e3b0c442
+masterAuth:
+  clusterCaCertificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQU9MajA0ZjduYWhrV1hlNWJjT2VZTUF3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa01tUmxOMk0xWmpJdE1tSmtaaTAwT1RJM0xXSTRNbVF0TnpkbVlURXlNelUwTUROagpNQ0FYRFRJek1ESXhOekF5TVRneU5Wb1lEekl3TlRNd01qQTVNRE14T0RJMVdqQXZNUzB3S3dZRFZRUURFeVF5ClpHVTNZelZtTWkweVltUm1MVFE1TWpjdFlqZ3laQzAzTjJaaE1USXpOVFF3TTJNd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FEeVJWZXZKYnBTaEhQZHhEQXpyMXB0QnF2TGVPVlJBUUhRbmE3TAoySVdwTVVrZno2Q3Y0VC9Cc0ppNUpDZ3ZLZHpzdTdWUnRQZEwwRk9FdDZqTlVjUi9EdGwycFZtcXdsRFhnSzV4CnJUVUYxQmJGR0xWc3BwRTg3dDlnM1ZTN3hSNTNVME9nbGlrYnc0MUNOSWZTbGRsallTaVpHd0FObnN2S1VneVIKYkc0TjBIelpXS05WR2Q1NTdjWkk2WnBqazZtbUpxOWc1elQzUHZCOGpYS3JTOG1rR2FoOVZCd25iWmlRTWViQwpEblhDYWpXREs5aklraG1jSnJkOUxJVzRuNTRmejgyc1hwWnBSZlZmYW5nQlp3Z3RhZ2VrWnFaSnU2Tmd1dmE0CmdPZHBuaVdzd0FYQ2NwK2xacmpBWk1WM1I1T3BlMHV2T0IzNTNoZVJPUjRrc0FkaFdXR3FUTWxPc2w3MHhGejIKeTlhYzMwZitrU2hIQlVKOC8yZWFPakpkNWF2WGJRWXplRkJucDNIaXRLek5McnRUb0pmaG4vNUFiakJac0pURwpBY0Nxc1I3bkJqcC9qYVBHRE1lZE5DWC9hNEtBZkpxeHJ6WStpV0I2cVp1QTRaMFg1TkV3dFM2cTNhLzJIOUd1CmxZcUtKbzJJN0I2aE5tU3V3SFZNVUtTcGw0VUNBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGT250V3FUM0kyMGJYT0VSNlpOd2VMTVVLd29yTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQ2lHZmdwTFFMTlAyTXRadHNkUkxRY2RKUTBNd3lITERyOTZYWWpKZlFhCjRzRjBUa3VJOG9yVG1zeDVXVDd0cWVEdUhKNVRLSzF4R0ROZGpoR2piVThxdm1xa2R0ZnduQkJhYkxCWXlGY2oKNW9DSE9IcW5rb3gwU0ZBQUQwVEUwWTVBUkI5WjUxb2NZeWdrYm94c2ZLc0ZPdldTQnRHY3UydUhOMkx5UjZZTgpVWEQrVU1iYURYT3RROFBpSkxpeFNxODhTdXR3TEVEUmxNcVpXQVQ1QW1yTjdYN21zanpLdFJiYU5TaGp0bFgyCkJBdmJiNmthdGI0M2V4eFppVzE4MXNTV1hoR2pVcXp5VWVMT2V3S09RZUJIVGxaRFIvemNEdlJ1d2JHMlc5OXUKbElRa25QbWl4TzlScHBXNUxWMEJreXhiSWdIU0NVdzA1MiswZFZ0TVVRUWJKa2IrNXBxUlZJMjVadThJeFJyTgpvekZqMXloYTMrckgxN1VKbEcwcHZaUVR3ODNzNGxjUytVQmlzanYxOWRkb0RYQk95RlV6LyszNVhqVXFSdkRlClVUOUN1NmIzdlVvMHhsMU9DdHBxMUk2cStnWlZEenBNbE9oOXUwczFGdTZHUGdjTC9md1JRR05SVU5ERWZNRjMKMHRBRmdaeUs3dHhSemFFWm51MWVscHc9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+masterAuthorizedNetworksConfig:
+  gcpPublicCidrsAccessEnabled: true
+monitoringConfig:
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+monitoringService: monitoring.googleapis.com/kubernetes
+name: gks-nowhere-gke
+network: gks-nowhere-vpc
+networkConfig:
+  defaultSnatStatus: {}
+  network: projects/gks-nowhere/global/networks/gks-nowhere-vpc
+  serviceExternalIpsConfig: {}
+  subnetwork: projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet
+nodeConfig:
+  diskSizeGb: 100
+  diskType: pd-balanced
+  imageType: COS_CONTAINERD
+  labels:
+    env: gks-nowhere
+  machineType: e2-small
+  metadata:
+    disable-legacy-endpoints: 'true'
+  oauthScopes:
+  - https://www.googleapis.com/auth/monitoring
+  - https://www.googleapis.com/auth/logging.write
+  serviceAccount: default
+  shieldedInstanceConfig:
+    enableIntegrityMonitoring: true
+  tags:
+  - gke-node
+  - gks-nowhere-gke
+  windowsNodeConfig: {}
+nodeIpv4CidrSize: 24
+nodePoolAutoConfig: {}
+nodePoolDefaults:
+  nodeConfigDefaults:
+    loggingConfig:
+      variantConfig:
+        variant: DEFAULT
+nodePools:
+- config:
+    diskSizeGb: 100
+    diskType: pd-balanced
+    imageType: COS_CONTAINERD
+    labels:
+      env: gks-nowhere
+    machineType: e2-small
+    metadata:
+      disable-legacy-endpoints: 'true'
+    oauthScopes:
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/logging.write
+    serviceAccount: default
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+    tags:
+    - gke-node
+    - gks-nowhere-gke
+    windowsNodeConfig: {}
+  etag: f6636448-073e-4b74-ac13-fa999a7d6f77
+  initialNodeCount: 1
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-5f220a3d-grp
+  - https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-870ab46d-grp
+  - https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-a957fb0b-grp
+  locations:
+  - us-east1-b
+  - us-east1-d
+  - us-east1-c
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  name: gks-nowhere-gke
+  networkConfig:
+    enablePrivateNodes: false
+  podIpv4CidrSize: 24
+  selfLink: https://container.googleapis.com/v1/projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.24.9-gke.2000
+notificationConfig:
+  pubsub: {}
+privateClusterConfig:
+  privateEndpoint: 10.10.0.2
+  publicEndpoint: 34.74.150.249
+releaseChannel:
+  channel: REGULAR
+selfLink: https://container.googleapis.com/v1/projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke
+servicesIpv4Cidr: 10.223.240.0/20
+shieldedNodes:
+  enabled: true
+status: RUNNING
+subnetwork: gks-nowhere-subnet
+zone: us-east1
+
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ kubectl proxy
+Starting to serve on 127.0.0.1:8001
+E0217 12:59:23.937178   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:23.954265   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:23.957236   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:23.958024   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:23.958543   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:28.938054   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:28.940719   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:28.943872   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:28.945931   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:28.950207   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:33.947583   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:33.952489   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:33.954234   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:33.955446   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:33.955953   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.552964   30060 proxy_server.go:147] Error while proxying request: dial tcp 34.74.150.249:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+E0217 12:59:34.592358   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.593386   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.593386   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.593386   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.593386   30060 proxy_server.go:147] Error while proxying request: context canceled
+E0217 12:59:34.593386   30060 proxy_server.go:147] Error while proxying request: context canceled
+^C
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform apply "PLAN.F.tfplan"
+╷
+│ Error: Saved plan is stale
+│
+│ The given plan file can no longer be applied because the state was changed by another operation after the plan was created.
+╵
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ ratera
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terrafpr, [
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform plan -out=PLAN.F.tfplan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_compute_network.vpc will be created
+  + resource "google_compute_network" "vpc" {
+      + auto_create_subnetworks         = false
+      + delete_default_routes_on_create = false
+      + gateway_ipv4                    = (known after apply)
+      + id                              = (known after apply)
+      + internal_ipv6_range             = (known after apply)
+      + mtu                             = (known after apply)
+      + name                            = "gks-nowhere-vpc"
+      + project                         = (known after apply)
+      + routing_mode                    = (known after apply)
+      + self_link                       = (known after apply)
+    }
+
+  # google_compute_subnetwork.subnet will be created
+  + resource "google_compute_subnetwork" "subnet" {
+      + creation_timestamp         = (known after apply)
+      + external_ipv6_prefix       = (known after apply)
+      + fingerprint                = (known after apply)
+      + gateway_address            = (known after apply)
+      + id                         = (known after apply)
+      + ip_cidr_range              = "10.10.0.0/24"
+      + ipv6_cidr_range            = (known after apply)
+      + name                       = "gks-nowhere-subnet"
+      + network                    = "gks-nowhere-vpc"
+      + private_ipv6_google_access = (known after apply)
+      + project                    = (known after apply)
+      + purpose                    = (known after apply)
+      + region                     = "us-east1"
+      + secondary_ip_range         = (known after apply)
+      + self_link                  = (known after apply)
+      + stack_type                 = (known after apply)
+    }
+
+  # google_container_cluster.primary will be created
+  + resource "google_container_cluster" "primary" {
+      + cluster_ipv4_cidr           = (known after apply)
+      + datapath_provider           = (known after apply)
+      + default_max_pods_per_node   = (known after apply)
+      + enable_binary_authorization = false
+      + enable_intranode_visibility = (known after apply)
+      + enable_kubernetes_alpha     = false
+      + enable_legacy_abac          = false
+      + enable_shielded_nodes       = true
+      + endpoint                    = (known after apply)
+      + id                          = (known after apply)
+      + initial_node_count          = 1
+      + label_fingerprint           = (known after apply)
+      + location                    = "us-east1"
+      + logging_service             = (known after apply)
+      + master_version              = (known after apply)
+      + monitoring_service          = (known after apply)
+      + name                        = "gks-nowhere-gke"
+      + network                     = "gks-nowhere-vpc"
+      + networking_mode             = (known after apply)
+      + node_locations              = (known after apply)
+      + node_version                = (known after apply)
+      + operation                   = (known after apply)
+      + private_ipv6_google_access  = (known after apply)
+      + project                     = (known after apply)
+      + remove_default_node_pool    = true
+      + self_link                   = (known after apply)
+      + services_ipv4_cidr          = (known after apply)
+      + subnetwork                  = "gks-nowhere-subnet"
+      + tpu_ipv4_cidr_block         = (known after apply)
+
+      + addons_config {
+          + cloudrun_config {
+              + disabled           = (known after apply)
+              + load_balancer_type = (known after apply)
+            }
+
+          + gcp_filestore_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + horizontal_pod_autoscaling {
+              + disabled = (known after apply)
+            }
+
+          + http_load_balancing {
+              + disabled = (known after apply)
+            }
+
+          + network_policy_config {
+              + disabled = (known after apply)
+            }
+        }
+
+      + authenticator_groups_config {
+          + security_group = (known after apply)
+        }
+
+      + cluster_autoscaling {
+          + enabled = (known after apply)
+
+          + auto_provisioning_defaults {
+              + image_type      = (known after apply)
+              + oauth_scopes    = (known after apply)
+              + service_account = (known after apply)
+            }
+
+          + resource_limits {
+              + maximum       = (known after apply)
+              + minimum       = (known after apply)
+              + resource_type = (known after apply)
+            }
+        }
+
+      + confidential_nodes {
+          + enabled = (known after apply)
+        }
+
+      + database_encryption {
+          + key_name = (known after apply)
+          + state    = (known after apply)
+        }
+
+      + default_snat_status {
+          + disabled = (known after apply)
+        }
+
+      + ip_allocation_policy {
+          + cluster_ipv4_cidr_block       = (known after apply)
+          + cluster_secondary_range_name  = (known after apply)
+          + services_ipv4_cidr_block      = (known after apply)
+          + services_secondary_range_name = (known after apply)
+        }
+
+      + logging_config {
+          + enable_components = (known after apply)
+        }
+
+      + master_auth {
+          + client_certificate     = (known after apply)
+          + client_key             = (sensitive value)
+          + cluster_ca_certificate = (known after apply)
+
+          + client_certificate_config {
+              + issue_client_certificate = (known after apply)
+            }
+        }
+
+      + monitoring_config {
+          + enable_components = (known after apply)
+        }
+
+      + node_config {
+          + boot_disk_kms_key = (known after apply)
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = (known after apply)
+          + local_ssd_count   = (known after apply)
+          + machine_type      = (known after apply)
+          + metadata          = (known after apply)
+          + min_cpu_platform  = (known after apply)
+          + node_group        = (known after apply)
+          + oauth_scopes      = (known after apply)
+          + preemptible       = (known after apply)
+          + service_account   = (known after apply)
+          + spot              = (known after apply)
+          + tags              = (known after apply)
+          + taint             = (known after apply)
+
+          + gcfs_config {
+              + enabled = (known after apply)
+            }
+
+          + gvnic {
+              + enabled = (known after apply)
+            }
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + node_pool {
+          + initial_node_count          = (known after apply)
+          + instance_group_urls         = (known after apply)
+          + managed_instance_group_urls = (known after apply)
+          + max_pods_per_node           = (known after apply)
+          + name                        = (known after apply)
+          + name_prefix                 = (known after apply)
+          + node_count                  = (known after apply)
+          + node_locations              = (known after apply)
+          + version                     = (known after apply)
+
+          + autoscaling {
+              + max_node_count = (known after apply)
+              + min_node_count = (known after apply)
+            }
+
+          + management {
+              + auto_repair  = (known after apply)
+              + auto_upgrade = (known after apply)
+            }
+
+          + node_config {
+              + boot_disk_kms_key = (known after apply)
+              + disk_size_gb      = (known after apply)
+              + disk_type         = (known after apply)
+              + guest_accelerator = (known after apply)
+              + image_type        = (known after apply)
+              + labels            = (known after apply)
+              + local_ssd_count   = (known after apply)
+              + machine_type      = (known after apply)
+              + metadata          = (known after apply)
+              + min_cpu_platform  = (known after apply)
+              + node_group        = (known after apply)
+              + oauth_scopes      = (known after apply)
+              + preemptible       = (known after apply)
+              + service_account   = (known after apply)
+              + spot              = (known after apply)
+              + tags              = (known after apply)
+              + taint             = (known after apply)
+
+              + gcfs_config {
+                  + enabled = (known after apply)
+                }
+
+              + gvnic {
+                  + enabled = (known after apply)
+                }
+
+              + shielded_instance_config {
+                  + enable_integrity_monitoring = (known after apply)
+                  + enable_secure_boot          = (known after apply)
+                }
+
+              + workload_metadata_config {
+                  + mode = (known after apply)
+                }
+            }
+
+          + upgrade_settings {
+              + max_surge       = (known after apply)
+              + max_unavailable = (known after apply)
+            }
+        }
+
+      + release_channel {
+          + channel = (known after apply)
+        }
+
+      + vertical_pod_autoscaling {
+          + enabled = (known after apply)
+        }
+
+      + workload_identity_config {
+          + workload_pool = (known after apply)
+        }
+    }
+
+  # google_container_node_pool.primary_nodes will be created
+  + resource "google_container_node_pool" "primary_nodes" {
+      + cluster                     = "gks-nowhere-gke"
+      + id                          = (known after apply)
+      + initial_node_count          = (known after apply)
+      + instance_group_urls         = (known after apply)
+      + location                    = "us-east1"
+      + managed_instance_group_urls = (known after apply)
+      + max_pods_per_node           = (known after apply)
+      + name                        = "gks-nowhere-gke"
+      + name_prefix                 = (known after apply)
+      + node_count                  = 1
+      + node_locations              = (known after apply)
+      + operation                   = (known after apply)
+      + project                     = (known after apply)
+      + version                     = (known after apply)
+
+      + management {
+          + auto_repair  = (known after apply)
+          + auto_upgrade = (known after apply)
+        }
+
+      + node_config {
+          + disk_size_gb      = (known after apply)
+          + disk_type         = (known after apply)
+          + guest_accelerator = (known after apply)
+          + image_type        = (known after apply)
+          + labels            = {
+              + "env" = "gks-nowhere"
+            }
+          + local_ssd_count   = (known after apply)
+          + machine_type      = "e2-small"
+          + metadata          = {
+              + "disable-legacy-endpoints" = "true"
+            }
+          + oauth_scopes      = [
+              + "https://www.googleapis.com/auth/logging.write",
+              + "https://www.googleapis.com/auth/monitoring",
+            ]
+          + preemptible       = false
+          + service_account   = (known after apply)
+          + spot              = false
+          + tags              = [
+              + "gke-node",
+              + "gks-nowhere-gke",
+            ]
+          + taint             = (known after apply)
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + upgrade_settings {
+          + max_surge       = (known after apply)
+          + max_unavailable = (known after apply)
+        }
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + kubernetes_cluster_host = (known after apply)
+  + kubernetes_cluster_name = "gks-nowhere-gke"
+  + project_id              = "gks-nowhere"
+  + region                  = "us-east1"
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: PLAN.F.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "PLAN.F.tfplan"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform apply PLAN.F.tfplan
+google_compute_network.vpc: Creating...
+google_compute_network.vpc: Still creating... [10s elapsed]
+google_compute_network.vpc: Creation complete after 12s [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc]
+google_compute_subnetwork.subnet: Creating...
+google_compute_subnetwork.subnet: Still creating... [10s elapsed]
+google_compute_subnetwork.subnet: Creation complete after 15s [id=projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet]
+google_container_cluster.primary: Creating...
+google_container_cluster.primary: Still creating... [10s elapsed]
+google_container_cluster.primary: Still creating... [20s elapsed]
+google_container_cluster.primary: Still creating... [30s elapsed]
+google_container_cluster.primary: Still creating... [40s elapsed]
+google_container_cluster.primary: Still creating... [50s elapsed]
+google_container_cluster.primary: Still creating... [1m0s elapsed]
+google_container_cluster.primary: Still creating... [1m10s elapsed]
+google_container_cluster.primary: Still creating... [1m20s elapsed]
+google_container_cluster.primary: Still creating... [1m30s elapsed]
+google_container_cluster.primary: Still creating... [1m40s elapsed]
+google_container_cluster.primary: Still creating... [1m50s elapsed]
+google_container_cluster.primary: Still creating... [2m0s elapsed]
+google_container_cluster.primary: Still creating... [2m10s elapsed]
+google_container_cluster.primary: Still creating... [2m20s elapsed]
+google_container_cluster.primary: Still creating... [2m30s elapsed]
+google_container_cluster.primary: Still creating... [2m40s elapsed]
+google_container_cluster.primary: Still creating... [2m50s elapsed]
+google_container_cluster.primary: Still creating... [3m0s elapsed]
+google_container_cluster.primary: Still creating... [3m10s elapsed]
+google_container_cluster.primary: Still creating... [3m20s elapsed]
+google_container_cluster.primary: Still creating... [3m30s elapsed]
+google_container_cluster.primary: Still creating... [3m40s elapsed]
+google_container_cluster.primary: Still creating... [3m50s elapsed]
+google_container_cluster.primary: Still creating... [4m0s elapsed]
+google_container_cluster.primary: Still creating... [4m10s elapsed]
+google_container_cluster.primary: Still creating... [4m20s elapsed]
+google_container_cluster.primary: Still creating... [4m30s elapsed]
+google_container_cluster.primary: Still creating... [4m40s elapsed]
+google_container_cluster.primary: Still creating... [4m50s elapsed]
+google_container_cluster.primary: Creation complete after 4m54s [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke]
+google_container_node_pool.primary_nodes: Creating...
+google_container_node_pool.primary_nodes: Still creating... [10s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [20s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [30s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [40s elapsed]
+google_container_node_pool.primary_nodes: Still creating... [50s elapsed]
+google_container_node_pool.primary_nodes: Creation complete after 58s [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke]
+
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+kubernetes_cluster_host = "34.139.12.54"
+kubernetes_cluster_name = "gks-nowhere-gke"
+project_id = "gks-nowhere"
+region = "us-east1"
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+Warning: spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+Warning: spec.template.metadata.annotations[seccomp.security.alpha.kubernetes.io/pod]: deprecated since v1.19, non-functional in v1.25+; use the "seccompProfile" field instead
+deployment.apps/dashboard-metrics-scraper created
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ kubectl proxy
+Starting to serve on 127.0.0.1:8001
+E0217 16:07:27.620538   29464 proxy_server.go:147] Error while proxying request: context canceled
+E0217 17:10:50.386996   29464 proxy_server.go:147] Error while proxying request: context canceled
+^C
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform destroy -auto-approver
+╷
+│ Error: Failed to parse command-line flags
+│
+│ flag provided but not defined: -auto-approver
+╵
+
+For more help on using this command, run:
+  terraform destroy -help
+
+Ethan_Li@EPCNSZXW0050 D:\dev\gcloud-k8s-terraform
+$ terraform destroy -auto-approve
+google_compute_network.vpc: Refreshing state... [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc]
+google_compute_subnetwork.subnet: Refreshing state... [id=projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet]
+google_container_cluster.primary: Refreshing state... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke]
+google_container_node_pool.primary_nodes: Refreshing state... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are
+indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_compute_network.vpc will be destroyed
+  - resource "google_compute_network" "vpc" {
+      - auto_create_subnetworks         = false -> null
+      - delete_default_routes_on_create = false -> null
+      - enable_ula_internal_ipv6        = false -> null
+      - id                              = "projects/gks-nowhere/global/networks/gks-nowhere-vpc" -> null
+      - mtu                             = 0 -> null
+      - name                            = "gks-nowhere-vpc" -> null
+      - project                         = "gks-nowhere" -> null
+      - routing_mode                    = "REGIONAL" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gks-nowhere/global/networks/gks-nowhere-vpc" -> null
+    }
+
+  # google_compute_subnetwork.subnet will be destroyed
+  - resource "google_compute_subnetwork" "subnet" {
+      - creation_timestamp         = "2023-02-16T21:57:00.431-08:00" -> null
+      - gateway_address            = "10.10.0.1" -> null
+      - id                         = "projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet" -> null
+      - ip_cidr_range              = "10.10.0.0/24" -> null
+      - name                       = "gks-nowhere-subnet" -> null
+      - network                    = "https://www.googleapis.com/compute/v1/projects/gks-nowhere/global/networks/gks-nowhere-vpc" -> null
+      - private_ip_google_access   = true -> null
+      - private_ipv6_google_access = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                    = "gks-nowhere" -> null
+      - purpose                    = "PRIVATE" -> null
+      - region                     = "us-east1" -> null
+      - secondary_ip_range         = [] -> null
+      - self_link                  = "https://www.googleapis.com/compute/v1/projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet" -> null
+      - stack_type                 = "IPV4_ONLY" -> null
+    }
+
+  # google_container_cluster.primary will be destroyed
+  - resource "google_container_cluster" "primary" {
+      - cluster_ipv4_cidr           = "10.220.0.0/14" -> null
+      - enable_autopilot            = false -> null
+      - enable_binary_authorization = false -> null
+      - enable_intranode_visibility = false -> null
+      - enable_kubernetes_alpha     = false -> null
+      - enable_legacy_abac          = false -> null
+      - enable_shielded_nodes       = true -> null
+      - enable_tpu                  = false -> null
+      - endpoint                    = "34.139.12.54" -> null
+      - id                          = "projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke" -> null
+      - initial_node_count          = 1 -> null
+      - label_fingerprint           = "a9dc16a7" -> null
+      - location                    = "us-east1" -> null
+      - logging_service             = "logging.googleapis.com/kubernetes" -> null
+      - master_version              = "1.24.9-gke.2000" -> null
+      - monitoring_service          = "monitoring.googleapis.com/kubernetes" -> null
+      - name                        = "gks-nowhere-gke" -> null
+      - network                     = "projects/gks-nowhere/global/networks/gks-nowhere-vpc" -> null
+      - networking_mode             = "ROUTES" -> null
+      - node_locations              = [
+          - "us-east1-b",
+          - "us-east1-c",
+          - "us-east1-d",
+        ] -> null
+      - node_version                = "1.24.9-gke.2000" -> null
+      - project                     = "gks-nowhere" -> null
+      - remove_default_node_pool    = true -> null
+      - resource_labels             = {} -> null
+      - self_link                   = "https://container.googleapis.com/v1/projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke" -> null
+      - services_ipv4_cidr          = "10.223.240.0/20" -> null
+      - subnetwork                  = "projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet" -> null
+
+      - addons_config {
+
+          - network_policy_config {
+              - disabled = true -> null
+            }
+        }
+
+      - cluster_autoscaling {
+          - enabled = false -> null
+        }
+
+      - database_encryption {
+          - state = "DECRYPTED" -> null
+        }
+
+      - default_snat_status {
+          - disabled = false -> null
+        }
+
+      - logging_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+              - "WORKLOADS",
+            ] -> null
+        }
+
+      - master_auth {
+          - cluster_ca_certificate = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRU0cyU2FoVkhuSTZQdmdKcXlFQllYekFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSbE1XTTFZVE5qTWkxa04yVXdMVFF3T0RBdE9UaGtNQzB5WmpjNE5tUXdabU5pWVRNdwpJQmNOTWpNd01qRTNNRFExTnpFMVdoZ1BNakExTXpBeU1Ea3dOVFUzTVRWYU1DOHhMVEFyQmdOVkJBTVRKR1V4Cll6VmhNMk15TFdRM1pUQXROREE0TUMwNU9HUXdMVEptTnpnMlpEQm1ZMkpoTXpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQUx6TW5ncWIyMGltcU1YYUl4MXp5L0VpdnZMTVBVT1MwVlI0VHpQcQpjY0Y1ZzUwSXdwaEtqakFtTWJEa2J6Y0QyWnVBZUo4cWF6eGRsMGhpT0orNWZXRC9KQXVxcjYzZnB5RFAzalJmCmUrWlF6aEt0WVRqa1JSd2dYaHB0UW9qTGRzbGd2VDlRVGtULzd3bTU2ZENOSlo0Um1yZWQ5NTVLQ0NDeVFaTXkKYlVISXJVL3Y0UTZ1WUpjN1BGUGpTS2JnY1hwYlNGQTcxZHBUVlRvUk03N2o2bXlYV2l6ZWlJRmxwZUdmOXJUNQp2KzFhSlU5WnBUdTVaaTBNYUNWc3NRcDdNd1BrVmtBZUtiVHdsMDZXWnZETTRjNUt3S291bDlXZGpKcnJTUENICnNWNFVVTFo2MGVZVXRvQzRHaEZvQWVTZ1NQdlhFRDE4cFFiNktzNG1WREJHbkxnMmRRc1FxNTlTWis5Q21ZeHcKN05RaUNwMXRQUkU1WE10Z0ZmVTBBUVhjeFBJOC9CQ2hQMndxVlM3V2pDcWZQRnBOU3NQVCtVV0tQcUJEOFBHcApkYU1FRHN3OE5lUFhzMEFwSnRocitCb0RXQUJ3SjluVEJxd05kc3R5TnlXdjUwTWN4endNNDZzZEJSV1RmdXllCjh5SXZCOUhaSW1zVDJiQzFybkxGWnhIdGpRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVV4NUdmN2Zkbk5Wb0hsMDB6NkJTcDVMV0VvbE13RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFLUmtiUjIrQTgvczJOTGJCU2EvelR1eHZaVGlJamlzRXdWdTVzdkkrbE5YCktoTHhBMVlVcFkyZlR2YUxyekZvYTJ5d3pSb2p1akJSbmU1UmtwREhoR1Nwd3ZKaHFNUjhxQTdvV0QrUFVTclIKc2RobVJScDdYQUl5TDNJL0l6YnNKS0hJV1czM3RRQ0doUjRzNVdtRWRBRndBVGdvVVcxK2VLaUpiOUJTbVVYawp0SU12ZkFUVHNWN2hJNVBCdHl6cmlCL0RudzcyQlMrSlpKOW9nQTFGM2tPSHlvZkVUbnVYTWI4a04yR0VNUnBRCkNxMDRjWjF6dlluYXZEdmJxZlFabncrUTdMQ0RjdG1PUUJ3U2NlWEpHZy9wNjlvVEx1NFdJaDhEZVA4Y1VPamkKTkkxbkd2aXpvdDZNYngyNjVuMCt1NUE2Rm14U2d1d2hqcmdPMUprUXpUYzd4WWJCZDMvSVR2eTFDdktycnA3awpNYy9KZEpCNlRRQWRwUFpGUzhKWFhybmVxemhPelF2UUpLekZHa0JSRDhxZ1huUjFpVjdGOUpFUDNKZ2JCOW9FCk1DelZTeWhGbWg4bjdUaXBwZnBTcysxcmRFMk1ScGpob0JGRWJLVGhnYzBUZ2VtV0tmeStOTk1uOW9idTFRQUEKTTJkWDNzTWFWWkw0dkdiNTJOb2Rjdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K" -> null
+
+          - client_certificate_config {
+              - issue_client_certificate = false -> null
+            }
+        }
+
+      - monitoring_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+            ] -> null
+        }
+
+      - network_policy {
+          - enabled  = false -> null
+          - provider = "PROVIDER_UNSPECIFIED" -> null
+        }
+
+      - node_config {
+          - disk_size_gb      = 100 -> null
+          - disk_type         = "pd-balanced" -> null
+          - guest_accelerator = [] -> null
+          - image_type        = "COS_CONTAINERD" -> null
+          - labels            = {
+              - "env" = "gks-nowhere"
+            } -> null
+          - local_ssd_count   = 0 -> null
+          - machine_type      = "e2-small" -> null
+          - metadata          = {
+              - "disable-legacy-endpoints" = "true"
+            } -> null
+          - oauth_scopes      = [
+              - "https://www.googleapis.com/auth/logging.write",
+              - "https://www.googleapis.com/auth/monitoring",
+            ] -> null
+          - preemptible       = false -> null
+          - service_account   = "default" -> null
+          - spot              = false -> null
+          - tags              = [
+              - "gke-node",
+              - "gks-nowhere-gke",
+            ] -> null
+          - taint             = [] -> null
+
+          - shielded_instance_config {
+              - enable_integrity_monitoring = true -> null
+              - enable_secure_boot          = false -> null
+            }
+        }
+
+      - node_pool {
+          - initial_node_count          = 1 -> null
+          - instance_group_urls         = [
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-d654c491-grp",
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-6eba5cfd-grp",
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-ce13b02b-grp",
+            ] -> null
+          - managed_instance_group_urls = [
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-d654c491-grp",
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-6eba5cfd-grp",
+              - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-ce13b02b-grp",
+            ] -> null
+          - max_pods_per_node           = 0 -> null
+          - name                        = "gks-nowhere-gke" -> null
+          - node_count                  = 1 -> null
+          - node_locations              = [
+              - "us-east1-b",
+              - "us-east1-c",
+              - "us-east1-d",
+            ] -> null
+          - version                     = "1.24.9-gke.2000" -> null
+
+          - management {
+              - auto_repair  = true -> null
+              - auto_upgrade = true -> null
+            }
+
+          - node_config {
+              - disk_size_gb      = 100 -> null
+              - disk_type         = "pd-balanced" -> null
+              - guest_accelerator = [] -> null
+              - image_type        = "COS_CONTAINERD" -> null
+              - labels            = {
+                  - "env" = "gks-nowhere"
+                } -> null
+              - local_ssd_count   = 0 -> null
+              - machine_type      = "e2-small" -> null
+              - metadata          = {
+                  - "disable-legacy-endpoints" = "true"
+                } -> null
+              - oauth_scopes      = [
+                  - "https://www.googleapis.com/auth/logging.write",
+                  - "https://www.googleapis.com/auth/monitoring",
+                ] -> null
+              - preemptible       = false -> null
+              - service_account   = "default" -> null
+              - spot              = false -> null
+              - tags              = [
+                  - "gke-node",
+                  - "gks-nowhere-gke",
+                ] -> null
+              - taint             = [] -> null
+
+              - shielded_instance_config {
+                  - enable_integrity_monitoring = true -> null
+                  - enable_secure_boot          = false -> null
+                }
+            }
+
+          - upgrade_settings {
+              - max_surge       = 1 -> null
+              - max_unavailable = 0 -> null
+            }
+        }
+
+      - private_cluster_config {
+          - enable_private_endpoint = false -> null
+          - enable_private_nodes    = false -> null
+          - private_endpoint        = "10.10.0.2" -> null
+          - public_endpoint         = "34.139.12.54" -> null
+
+          - master_global_access_config {
+              - enabled = false -> null
+            }
+        }
+
+      - release_channel {
+          - channel = "REGULAR" -> null
+        }
+    }
+
+  # google_container_node_pool.primary_nodes will be destroyed
+  - resource "google_container_node_pool" "primary_nodes" {
+      - cluster                     = "gks-nowhere-gke" -> null
+      - id                          = "projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke" -> null
+      - initial_node_count          = 1 -> null
+      - instance_group_urls         = [
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-d654c491-grp",
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-6eba5cfd-grp",
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroupManagers/gke-gks-nowhere-gke-gks-nowhere-gke-ce13b02b-grp",
+        ] -> null
+      - location                    = "us-east1" -> null
+      - managed_instance_group_urls = [
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-c/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-d654c491-grp",
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-d/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-6eba5cfd-grp",
+          - "https://www.googleapis.com/compute/v1/projects/gks-nowhere/zones/us-east1-b/instanceGroups/gke-gks-nowhere-gke-gks-nowhere-gke-ce13b02b-grp",
+        ] -> null
+      - name                        = "gks-nowhere-gke" -> null
+      - node_count                  = 1 -> null
+      - node_locations              = [
+          - "us-east1-b",
+          - "us-east1-c",
+          - "us-east1-d",
+        ] -> null
+      - project                     = "gks-nowhere" -> null
+      - version                     = "1.24.9-gke.2000" -> null
+
+      - management {
+          - auto_repair  = true -> null
+          - auto_upgrade = true -> null
+        }
+
+      - node_config {
+          - disk_size_gb      = 100 -> null
+          - disk_type         = "pd-balanced" -> null
+          - guest_accelerator = [] -> null
+          - image_type        = "COS_CONTAINERD" -> null
+          - labels            = {
+              - "env" = "gks-nowhere"
+            } -> null
+          - local_ssd_count   = 0 -> null
+          - machine_type      = "e2-small" -> null
+          - metadata          = {
+              - "disable-legacy-endpoints" = "true"
+            } -> null
+          - oauth_scopes      = [
+              - "https://www.googleapis.com/auth/logging.write",
+              - "https://www.googleapis.com/auth/monitoring",
+            ] -> null
+          - preemptible       = false -> null
+          - service_account   = "default" -> null
+          - spot              = false -> null
+          - tags              = [
+              - "gke-node",
+              - "gks-nowhere-gke",
+            ] -> null
+          - taint             = [] -> null
+
+          - shielded_instance_config {
+              - enable_integrity_monitoring = true -> null
+              - enable_secure_boot          = false -> null
+            }
+        }
+
+      - upgrade_settings {
+          - max_surge       = 1 -> null
+          - max_unavailable = 0 -> null
+        }
+    }
+
+Plan: 0 to add, 0 to change, 4 to destroy.
+
+Changes to Outputs:
+  - kubernetes_cluster_host = "34.139.12.54" -> null
+  - kubernetes_cluster_name = "gks-nowhere-gke" -> null
+  - project_id              = "gks-nowhere" -> null
+  - region                  = "us-east1" -> null
+google_container_node_pool.primary_nodes: Destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke/nodePools/gks-nowhere-gke]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 10s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 20s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 30s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 40s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 50s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m0s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m10s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m20s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m30s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m40s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 1m50s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 2m0s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 2m10s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 2m20s elapsed]
+google_container_node_pool.primary_nodes: Still destroying... [id=projects/gks-nowhere/locations/us-east1...-nowhere-gke/nodePools/gks-nowhere-gke, 2m30s elapsed]
+google_container_node_pool.primary_nodes: Destruction complete after 2m35s
+google_container_cluster.primary: Destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 1m50s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m0s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m10s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m20s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m30s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m40s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 2m51s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m1s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m11s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m21s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m31s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m41s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 3m51s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 4m1s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 4m11s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 4m21s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 4m31s elapsed]
+google_container_cluster.primary: Still destroying... [id=projects/gks-nowhere/locations/us-east1/clusters/gks-nowhere-gke, 4m41s elapsed]
+google_container_cluster.primary: Destruction complete after 4m49s
+google_compute_subnetwork.subnet: Destroying... [id=projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet]
+google_compute_subnetwork.subnet: Still destroying... [id=projects/gks-nowhere/regions/us-east1/subnetworks/gks-nowhere-subnet, 10s elapsed]
+google_compute_subnetwork.subnet: Destruction complete after 14s
+google_compute_network.vpc: Destroying... [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc]
+google_compute_network.vpc: Still destroying... [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc, 10s elapsed]
+google_compute_network.vpc: Still destroying... [id=projects/gks-nowhere/global/networks/gks-nowhere-vpc, 20s elapsed]
+google_compute_network.vpc: Destruction complete after 22s
